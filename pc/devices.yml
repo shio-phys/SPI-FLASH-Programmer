@@ -1,0 +1,116 @@
+{
+
+#################### Format #####################
+#   <JEDEC ID code>: {                          #
+#       name:                 <Device name>,    #
+#       capacity:        <Capacity in Mbit>,    #
+#       sector:              <total sector>,    #
+#       sector_size:    <sector size in KB>,    #
+#       address_mode: <address mode 3 or 4>     #
+#       },                                      #
+#################################################
+
+    0x202016: {
+        name:        M25P32,
+        capacity:        32,
+        sector:          64,
+        sector_size:     64,
+        address_mode:     3
+        },
+
+    0x202017: {
+        name:        M25P64,
+        capacity:        64,
+        sector:         128,
+        sector_size:     64,
+        address_mode:     3
+        },
+
+    0x202018: {
+        name:        M25P128,
+        capacity:        128,
+        sector:           64,
+        sector_size:     256,
+        address_mode:      3
+        },
+
+    0x20BB16: {
+        name:        M25Q032,
+        capacity:         32,
+        sector:           64,
+        sector_size:      64,
+        address_mode:      3
+        },
+
+    0x20BB17: {
+        name:        M25Q064,
+        capacity:         64,
+        sector:          128,
+        sector_size:      64,
+        address_mode:      3
+        },
+
+    0x20BB18: {
+        name:        M25Q128,
+        capacity:        128,
+        sector:          256,
+        sector_size:      64,
+        address_mode:      3
+        },
+
+    0x20BB19: {
+        name:        M25Q256,
+        capacity:        256,
+        sector:          512,
+        sector_size:      64,
+        address_mode:      4
+        },
+
+    0xEF4016: {
+        name:       W25Q32BV,
+        capacity:         32,
+        sector:           64,
+        sector_size:      64,
+        address_mode:      3
+        },
+
+    0xEF4017: {
+        name:       W25Q64BV,
+        capacity:         64,
+        sector:          128,
+        sector_size:      64,
+        address_mode:      3
+        },
+
+    0xEF4018: {
+        name:      W25Q128BV,
+        capacity:        128,
+        sector:          256,
+        sector_size:      64,
+        address_mode:      3
+        },
+
+    0xEF5014: {
+        name:       W25Q80BW,
+        capacity:          8,
+        sector:           16,
+        sector_size:      64,
+        address_mode:      3
+        },
+
+    0xEF6016: {
+        name:       W25Q32DW,
+        capacity:         32,
+        sector:           64,
+        sector_size:      64,
+        address_mode:      3
+        },
+
+    0xEF6017: {
+        name:       W25Q64DW,
+        capacity:         64,
+        sector:          128,
+        sector_size:      64,
+        address_mode:      3
+        },
+}
