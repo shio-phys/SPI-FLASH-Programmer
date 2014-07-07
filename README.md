@@ -189,6 +189,28 @@ RBCP通信がタイムアウトしました。
     + SPI-FLASH-Programmerの使用しているRBCPアドレスが競合している可能性があります。  
       RBCPのアドレスマップを再確認してください。
 
+リソース使用量
+--------------
+使用デバイス: XC7A100T-2
+
+論理合成ツール: vivado 2014.1
+
+合成オプション:
+
+    synth_design -top TopLevel -part xc7a100tfgg676-2 -flatten_hierarchy rebuilt
+    opt_design
+    power_opt_design
+    place_design
+    phys_opt_design
+    route_design
+
+| プリミティブ | 使用数 |
+|--------------|--------|
+|          LUT |    107 |
+|          FFs |    137 |
+|       RAMB36 |      2 |
+|       RAMB18 |      1 |
+    
 
 新たなSPI FLASHの追加方法
 -------------------------
