@@ -51,6 +51,9 @@ Scientific LinuxにインストールされているRubyは古いので[Ruby][Ru
 ### FPGA
 
 fpgaディレクトリ内のVHDLファイルをプロジェクトに追加し、SPI-FLASH-Programmerをインスタンシエートしてください。
+
+#### ポート
+
 各ポートは次のように接続してください。
 
 | ポート名   | 方向 | ビット幅 |                                                                                  |
@@ -71,6 +74,18 @@ fpgaディレクトリ内のVHDLファイルをプロジェクトに追加し、
 | SPI\_MISO  | 入力 |        1 | SPI FLASHのデータ出力に接続                                                      |
 
 方向はSPI-FLASH-Programmerから見た入出力の方向です。
+SPI\_CLKに供給する周波数は各SPI FLASHのデータシートを参照の上決定ください。
+
+#### ジェネリック
+ジェネリックには次のように値を設定してください。
+
+| ジェネリック名                     |                        データ型 |                                      |
+|:-----------------------------------|---------------------------------|--------------------------------------|
+| G\_SPI\_FLASH\_PROGRAMMER\_ADDRESS | std\_logic\_vector(31 downto 0) | 割り当てるRBCPアドレスの開始アドレス |
+| G\_SITCP\_CLK\_FREQ                |                            real | SITCP_CLKの周波数(MHz)               |
+| G\_SPI\_CLK\_FREQ                  |                            real | SPI_CLKの周波数(MHz)                 |
+
+SPI-Flash-ProgrammerにG\_SPI\_FLASH\_PROGRAMMER\_ADDRESSから始まる8195byte分のアドレス空間を割り当ててください。
 
 RBCPバスに他のモジュールが接続されているときにはRBCP\_RD、RBCP\_ACKを次のように処理してください。
 
@@ -98,9 +113,6 @@ SPI\_\*の接続先は多くのSPI FLASHでは次のような名称のピンに�
 コンフィグ後のCCLKピンがフロートになるように制約をかけてください。
 
     set_property BITSTREAM.CONFIG.CCLKPIN Pullnone [current_design]
-
-G\_SPI\_FLASH\_PROGRAMMER\_ADDRESSにSPI-FLASH-Programmerに割り当てるRBCPアドレスを指定してください。
-8195byteがSPI-FLASH-Programmer用に割り当てられます。
 
 
 ### PC
