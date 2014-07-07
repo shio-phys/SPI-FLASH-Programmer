@@ -12,7 +12,9 @@ use ieee.std_logic_unsigned.all;
 entity SPI_FLASH_Programmer is
     generic(
         G_SPI_FLASH_PROGRAMMER_ADDRESS : std_logic_vector(31 downto 0)
-            := (others => '0')
+            := (others => '0');
+        G_SITCP_CLK_FREQ : real := 25.0;
+        G_SPI_CLK_FREQ : real := 66.6
     );
     port(
         SPI_CLK : in std_logic;
@@ -154,6 +156,18 @@ architecture RTL of SPI_FLASH_Programmer is
         );
     end component;
 
+    component PulseExtender is
+        generic(
+            G_WIDTH : integer
+        );
+        port(
+            CLK : in  std_logic;
+            RESET : in  std_logic;
+            DIN : in  std_logic;
+            DOUT : out  std_logic
+        );
+    end component;
+
     signal CommandSenderStart : std_logic;
     signal CommandSenderBusy : std_logic;
     signal CommandSenderLength : std_logic_vector(12 downto 0);
@@ -183,6 +197,7 @@ architecture RTL of SPI_FLASH_Programmer is
     signal RbcpWdLength : std_logic_vector(7 downto 0);
 
     signal CommandSenderStartPre : std_logic;
+    signal CommandSenderStartPreExpanded : std_logic;
     signal SynchCommandSenderBusy : std_logic;
     signal RbcpAckReadStatusRegisterPre : std_logic;
 
@@ -284,11 +299,22 @@ begin
         end if;
     end process;
 
+    PulseExtender_CommandStart: PulseExtender
+    generic map(
+        G_WIDTH => integer(2.0 * G_SITCP_CLK_FREQ / G_SPI_CLK_FREQ + 1.0)
+    )
+    port map(
+        CLK => SITCP_CLK,
+        RESET => RESET,
+        DIN => CommandSenderStartPre,
+        DOUT => CommandSenderStartPreExpanded
+    );
+
     SynchEdgeDetector_CommandSenderStart: SynchEdgeDetector
     port map(
         CLK => SPI_CLK,
         RESET => RESET,
-        DIN => CommandSenderStartPre,
+        DIN => CommandSenderStartPreExpanded,
         DOUT => CommandSenderStart
     );
 
