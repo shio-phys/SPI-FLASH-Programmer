@@ -17,6 +17,7 @@ SPI FLASH情報はYAMLファイルに格納されているため、互換性の�
 ### FPGA
 
 + Artix 7 シリーズFPGA
+
 (デバイスに依存する書き方はしていないので他のFPGAでも対応可能なはず)
 
 + 以下のSPI FLASH
@@ -40,8 +41,14 @@ Scientific LinuxにインストールされているRubyは古いので[Ruby][Ru
 
 使い方
 ------
-### FPGA
+### 回路
 ![回路図](https://raw.githubusercontent.com/wiki/shio-phys/SPI-FLASH-Programmer/image/circuit.png)
+
+基本的には[Using SPI Flash with 7 Series FPGAs][XAPP586]を参考に接続してください。
+7シリーズからCCLKをGPIOとして使用することが出来なくなっているので、他のGPIOをSPI FLASHのクロック入力ピンと接続してください(USER_CLK)。
+コンフィグ後のCCLKをフローティングにすることでCCLKとUSER_CLKの衝突を防ぐことが出来ます。
+
+### FPGA
 
 fpgaディレクトリ内のVHDLファイルをプロジェクトに追加し、SPI-FLASH-Programmerをインスタンシエートしてください。
 各ポートは次のように接続してください。
@@ -125,7 +132,20 @@ UDPポート番号 setting.ymlに書いたものよりもこちらが優先さ�
 + `-v, --version`:
 バージョンを表示する
 
-####エラーメッセージの対応
+#### エラーメッセージの原因と対処
++ \<IP address\> is unreachable
+
+\<IP address\>にしてpingが通りません。
+指定したIPアドレスがSiTCPのものか確認してください。
+ボードの電源が入っており、FPGAのRAMにファームウェアが書き込まれていることを確認してください。
+
++ Verify failed
+
+Erase、Write後のVerifyに失敗しました。
+SPI FLASHにファームウェアが正常に書かれていない可能性が高いです。
+ファームウェアの書き込みをもう1度行ってください。
+それでも解決しない場合は`SPI_*`ピンのタイミング制約が間違っている場合があります。
+SPI FLASHデバイスのセットアップタイム、ホールドタイムを満たしているか確認してください。
 
 
 新たなSPI FLASHの追加方法
@@ -184,6 +204,14 @@ ERASE\_SECTORコマンドで消すことのできるセクターサイズをKB�
 + mcsファイルのアドレスが連続していないときにはmcsファイルのデコードを正しく行えない
 ISE、vivadoの出力するmcsファイルはそのようなフォーマットになっていないので実用上問題ありません。
 
+関連情報
+--------
++ [SiTCP][SiTCP]
++ [Using SPI Flash with 7 Series FPGAs][XAPP586]
++ [Intel HEX format][IntelHEX]
+[SiTCP]: http://research.kek.jp/people/uchida/technologies/SiTCP/
+[XAPP586]: http://www.xilinx.com/support/documentation/application_notes/xapp586-spi-flash.pdf
+[IntelHEX]: http://en.wikipedia.org/wiki/Intel_HEX
 
 ライセンス
 ----------
