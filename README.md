@@ -29,7 +29,8 @@ W25Q32BV, W25Q64BV, W25Q128BV, W25Q80BW, W25Q64FV, W25Q128FV, W25Q32DW, W25Q64DW
 ### PC
 
 + Cygwin or Linux
-そのままのWindowsにも対応予定
+
+Windowsにもそのうち対応予定
 
 + Ruby >= 2.1.0
 
@@ -40,7 +41,7 @@ Scientific LinuxにインストールされているRubyは古いので[Ruby][Ru
 使い方
 ------
 ### FPGA
-回路図とかをここに入れたいなぁ
+![回路図](https://raw.githubusercontent.com/wiki/shio-phys/SPI-FLASH-Programmer/image/circuit.png)
 
 fpgaディレクトリ内のVHDLファイルをプロジェクトに追加し、SPI-FLASH-Programmerをインスタンシエートしてください。
 各ポートは次のように接続してください。
@@ -81,22 +82,23 @@ SPI\_\*の接続先は多くのSPI FLASHでは次のような名称のピンに�
 | SPI\_MISO                      | DQ1               |
 
 セットアップタイムの確保のためにSPI\_\*はIOBのレジスタにマップするように配置制約をかけてください。
-vivadoであれば
 
     set_property IOB true [get_ports SPI_SCLK]
     set_property IOB true [get_ports SPI_SS_N]
     set_property IOB true [get_ports SPI_MOSI]
     set_property IOB true [get_ports SPI_MISO]
 
-のような制約をxdcファイルに追記してください。
+コンフィグ後のCCLKピンがフロートになるように制約をかけてください。
 
-ジェネリックとか
+    set_property BITSTREAM.CONFIG.CCLKPIN Pullnone [current_design]
+
 G\_SPI\_FLASH\_PROGRAMMER\_ADDRESSにSPI-FLASH-Programmerに割り当てるRBCPアドレスを指定してください。
 8195byteがSPI-FLASH-Programmer用に割り当てられます。
 
 
 ### PC
 インターネットに接続されているPCで`pc/install.sh`を実行してください。
+必要なライブラリがインストールされます。
 Rubyのバージョンが古い場合は2.1.0以上をインストールしてください。
 
 settings.ymlを以下のように変更してください。
@@ -123,7 +125,7 @@ UDPポート番号 setting.ymlに書いたものよりもこちらが優先さ�
 + `-v, --version`:
 バージョンを表示する
 
-エラーメッセージの対応とか。。。
+####エラーメッセージの対応
 
 
 新たなSPI FLASHの追加方法
@@ -152,7 +154,7 @@ SPI FLASHはM32Pと互換性を持っており、以下のコマンドセット�
 | 4\_BYTE\_ADDRESS\_SECTOR\_ERASE    |     0xDC |          4 |        0 |
 | BULK\_ERASE                        |     0xC7 |          0 |        0 |
 
-デバイス情報をdevices.ymlに追記してください。
+デバイス情報を以下のフォーマットに従ってdevices.ymlに追記してください。
 
     <JEDEC ID code>: {
        name:                 <Device name>,
