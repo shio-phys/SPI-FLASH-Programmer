@@ -43,7 +43,7 @@ class SpiCommandSender
 
         address_mode = @device_information['address_mode']
         sector_size = @device_information['sector_size']
-        address_bytes = pack_address(sector * sector_size)
+        address_bytes = pack_address(sector * sector_size * 1024)
         address_length = address_bytes.length
 
         send_spi_command(sector_erase_command, address_length, address_bytes)

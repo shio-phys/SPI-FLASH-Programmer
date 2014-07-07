@@ -102,7 +102,7 @@ class SpiFlashProgrammer
         end
         progress_bar.finish
         if(@binary != rom)
-            puts 'Varify failed'
+            puts 'Verify failed'
             puts '    Please rewrite firmware.'
             exit 1
         end

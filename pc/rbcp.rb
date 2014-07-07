@@ -134,7 +134,7 @@ class RBCP
             sock.close
             @id = (@id + 1) & 0xff
         end
-        received_data.slice(0, 8)
+        received_data.slice(8..-1)
     end
 
     def validate(rw, address, data_length, data, received_data)
