@@ -200,11 +200,22 @@ if OPTS.has_key?(:port)
 end
 quiet_mode = OPTS.fetch(:quiet, false)
 
-spi_flash_programmer = SpiFlashProgrammer.new(host: ipaddr,
-                                              port: port,
-                                              rbcp_address: rbcp_address,
-                                              mcs_filename: mcs_filename,
-                                              quiet_mode: quiet_mode)
-spi_flash_programmer.erase
-spi_flash_programmer.write
-spi_flash_programmer.verify
+begin
+    spi_flash_programmer = SpiFlashProgrammer.new(host: ipaddr,
+                                                  port: port,
+                                                  rbcp_address: rbcp_address,
+                                                  mcs_filename: mcs_filename,
+                                                  quiet_mode: quiet_mode)
+    spi_flash_programmer.erase
+    spi_flash_programmer.write
+    spi_flash_programmer.verify
+rescue RBCPError => e
+    if e.message == 'Timeout'
+        $stderr.puts 'RBCP Timeout'
+        exit 1
+    else
+        $stderr.puts 'RBCP Error'
+        $stderr.puts e.message
+        exit 1
+    end
+end
