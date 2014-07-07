@@ -20,6 +20,7 @@ SPI FLASH情報はYAMLファイルに格納されているため、互換性の�
 (デバイスに依存する書き方はしていないので他のFPGAでも対応可能なはず)
 
 + 以下のSPI FLASH
+
 M25P32, M25P64, M25P128, N25Q032, N25Q064, N25Q128, N25Q256,
 W25Q32BV, W25Q64BV, W25Q128BV, W25Q80BW, W25Q64FV, W25Q128FV, W25Q32DW, W25Q64DW
 
@@ -31,6 +32,7 @@ W25Q32BV, W25Q64BV, W25Q128BV, W25Q80BW, W25Q64FV, W25Q128FV, W25Q32DW, W25Q64DW
 そのままのWindowsにも対応予定
 
 + Ruby >= 2.1.0
+
 Scientific LinuxにインストールされているRubyは古いので[Ruby][Ruby]からインストールすることをお勧めします。
 [Ruby]: https://www.ruby-lang.org/
 
@@ -38,7 +40,7 @@ Scientific LinuxにインストールされているRubyは古いので[Ruby][Ru
 使い方
 ------
 ### FPGA
-回路図とか
+回路図とかをここに入れたいなぁ
 
 fpgaディレクトリ内のVHDLファイルをプロジェクトに追加し、SPI-FLASH-Programmerをインスタンシエートしてください。
 各ポートは次のように接続してください。
@@ -102,23 +104,23 @@ settings.ymlを以下のように変更してください。
     udp_port: <UDP port>
     rbcp_address: <RBCP address of SPI-FLASH-Programmer>
 
-+`udp_port`:
++ `udp_port`:
 RBCP通信に使用するUDPポート番号(通常は4660)
 
-+`rbcp_address`
++ `rbcp_address`
 SPI-FLASH-Programmerをインプリメントする際に割り当てたRBCPアドレス
 
 そして以下のコマンドを実行して書き込みを行ってください。
 `pc/spi_flash_programmer.rb [option] <IP address> <mcs file>`
 
 以下のオプションに対応しています。
-+`--port`:
++ `--port`:
 UDPポート番号 setting.ymlに書いたものよりもこちらが優先される。
-+`-q, --quiet`:
++ `-q, --quiet`:
 プログレスバーとSPI FLASH情報を表示しない
-+`-h, --help`:
++ `-h, --help`:
 ヘルプメッセージを表示する
-+`-v, --version`:
++ `-v, --version`:
 バージョンを表示する
 
 エラーメッセージの対応とか。。。
@@ -160,19 +162,19 @@ SPI FLASHはM32Pと互換性を持っており、以下のコマンドセット�
        address_mode: <address mode 3 or 4>
        },
 
-+`JEDEC ID code`:
++ `JEDEC ID code`:
 READ\_IDENTIFICATIONコマンドで読み出した時の最初の3byte
 
-+`capacity`
++ `capacity`
 デバイスの容量をMbit単位で
 
-+`sector`
++ `sector`
 全セクター数
 
-+`sector_size`
++ `sector_size`
 ERASE\_SECTORコマンドで消すことのできるセクターサイズをKB単位で
 
-+`address_mode`
++ `address_mode`
 アドレスモードを3byteにするか4byteにするか。256Mbit以上であれば4、以下であれば3に設定
 
 既知のバグ
