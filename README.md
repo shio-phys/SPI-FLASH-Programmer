@@ -210,6 +210,21 @@ RBCP通信がタイムアウトしました。
 |          FFs |    137 |
 |       RAMB36 |      2 |
 |       RAMB18 |      1 |
+
+書き込み時間
+------------
+使用デバイス: XC7A100T-2
+
+SPI FLASH: M25P32 (32Mbit)
+
+書き込みケーブル: XILINX Platform Cable USB
+
+SPI_CLKの周波数: 66MHz
+
+|         書き込み方法 | 書き込み時間 |
+|---------------------:|-------------:|
+|         iMPACT 14.6  |         8:00 |
+| SPI-FLASH-Programmer |         1:22 |
     
 
 新たなSPI FLASHの追加方法
